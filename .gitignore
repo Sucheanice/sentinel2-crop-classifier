@@ -1,0 +1,31 @@
+# 数据文件 (不提交)
+待训练数据/
+待训练数据2/
+待训练数据3/
+待训练数据4/
+待训练数据4_cropped/
+test - 副本/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 临时文件
+*.tmp
+*.log
+
+# 输出文件
+*.tif
+*.csv
+*.pkl
+*.tar.gz
+*.zip
+*.aux.xml
+*.docx
+
+# 其他
+*.img
+*.img.*
+技术路线_申报基金.md
+测试报告_20260624.md
