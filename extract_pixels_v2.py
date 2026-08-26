@@ -9,8 +9,9 @@ import os, time
 
 SHP_SEARCH_DIR = r"E:\工作相关\2026年\0624 待测试数据\待训练数据\矢量\人保-仅作物面"
 DATA_DIR = r"E:\工作相关\2026年\0624 待测试数据\待训练数据4"
-BANDS = ["B02", "B03", "B04", "B08"]
-OUTPUT = r"E:\工作相关\2026年\0624 待测试数据\待训练数据\features_anju_correct.csv"
+# v2: 提取全部可用波段（含B8A/B11/B12），自动跳过缺失的波段
+BANDS = ["B02", "B03", "B04", "B08", "B8A", "B11", "B12"]
+OUTPUT = r"E:\工作相关\2026年\0624 待测试数据\待训练数据\features_anju_v2.csv"
 
 SCL_CLOUD = {0, 1, 3, 8, 9, 10, 11}
 

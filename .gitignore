@@ -32,3 +32,23 @@ __pycache__/
 技术路线_申报基金.md
 测试报告_20260624.md
 cdse_config.txt
+
+# 数据/模型/矢量/归档文件（不提交）
+*.rar
+*.shp
+*.dbf
+*.shx
+*.prj
+*.cpg
+*.qpj
+*.gpkg
+*.pth
+*.xlsx
+*.html
+*.geojson
+*.json
+*.sav
+*.ipynb
+
+# 归档废代码
+_archive/
