@@ -1,0 +1,9 @@
+numpy
+rasterio
+scikit-learn
+scipy
+shapely
+planetary-computer
+pyproj
+requests
+geopandas

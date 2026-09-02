@@ -1,0 +1,272 @@
+﻿Sentinel-2 大春影像 补下清单（迅雷已显示完成但磁盘缺失）
+请全部下载到 E:\迅雷下载，目录结构保持 0814-{tile}-5-8\{05,06,07,08}\B*.tif
+
+============================================================
+【48RVR】（训练侧_23县库）完整 4 期 x 10 波段
+============================================================
+
+# 05_返青拔节  2025-05-20  云量15.06%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/5/S2B_48RVR_20250520_0_L2A/B12.tif
+
+# 06_分蘖抽穗  2025-06-14  云量56.68%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/6/S2C_48RVR_20250614_0_L2A/B12.tif
+
+# 07_抽穗灌浆  2025-07-04  云量6.27%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/7/S2C_48RVR_20250704_0_L2A/B12.tif
+
+# 08_灌浆收获  2025-08-03  云量7.4%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/VR/2025/8/S2C_48RVR_20250803_0_L2A/B12.tif
+
+============================================================
+【48SUA】（推理侧_绵阳6县）完整 4 期 x 10 波段
+============================================================
+
+# 05_返青拔节  2025-05-20  云量4.66%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/5/S2B_48SUA_20250520_0_L2A/B12.tif
+
+# 06_分蘖抽穗  2025-06-12  云量12.84%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/6/S2B_48SUA_20250612_0_L2A/B12.tif
+
+# 07_抽穗灌浆  2025-07-16  云量7.9%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/7/S2A_48SUA_20250716_0_L2A/B12.tif
+
+# 08_灌浆收获  2025-08-31  云量25.11%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UA/2025/8/S2B_48SUA_20250831_0_L2A/B12.tif
+
+============================================================
+【48SUB】（推理侧_绵阳6县）完整 4 期 x 10 波段
+============================================================
+
+# 05_返青拔节  2025-05-28  云量25.41%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/5/S2C_48SUB_20250528_0_L2A/B12.tif
+
+# 06_分蘖抽穗  2025-06-17  云量7.55%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/6/S2C_48SUB_20250617_0_L2A/B12.tif
+
+# 07_抽穗灌浆  2025-07-17  云量17.05%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/7/S2C_48SUB_20250717_0_L2A/B12.tif
+
+# 08_灌浆收获  2025-08-31  云量18.89%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/UB/2025/8/S2B_48SUB_20250831_0_L2A/B12.tif
+
+============================================================
+【48SVB】（推理侧_绵阳6县）完整 4 期 x 10 波段
+============================================================
+
+# 05_返青拔节  2025-05-20  云量6.51%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/5/S2B_48SVB_20250520_0_L2A/B12.tif
+
+# 06_分蘖抽穗  2025-06-12  云量6.64%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/6/S2B_48SVB_20250612_0_L2A/B12.tif
+
+# 07_抽穗灌浆  2025-07-16  云量11.24%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/7/S2A_48SVB_20250716_0_L2A/B12.tif
+
+# 08_灌浆收获  2025-08-31  云量5.61%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VB/2025/8/S2B_48SVB_20250831_0_L2A/B12.tif
+
+============================================================
+【48SWB】（推理侧_绵阳6县）完整 4 期 x 10 波段
+============================================================
+
+# 05_返青拔节  2025-05-10  云量3.72%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/5/S2B_48SWB_20250510_0_L2A/B12.tif
+
+# 06_分蘖抽穗  2025-06-26  云量55.22%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/6/S2A_48SWB_20250626_1_L2A/B12.tif
+
+# 07_抽穗灌浆  2025-07-16  云量16.71%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/7/S2A_48SWB_20250716_1_L2A/B12.tif
+
+# 08_灌浆收获  2025-08-13  云量17.25%
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/WB/2025/8/S2C_48SWB_20250813_0_L2A/B12.tif
+
+============================================================
+【48RUT】仅补缺以下文件（训练侧_23县库）
+============================================================
+
+# 05_返青拔节 仅 B12  (下载后放入 0814-48RUT-5-8\05\B12.tif)
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/UT/2025/5/S2A_48RUT_20250520_1_L2A/B12.tif
+
+# 06_分蘖抽穗 仅 B04  (下载后放入 0814-48RUT-5-8\06\B04.tif)
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/R/UT/2025/6/S2B_48RUT_20250612_0_L2A/B04.tif

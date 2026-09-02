@@ -25,9 +25,9 @@ BANDS_TRAIN = ["B02", "B03", "B04", "B08"]
 
 
 def compute_indices(blue, green, red, nir, swir1=None, re1=None, re2=None):
-    """逐像素计算 7 种植被/水体/红边指数。
+    """逐像素计算 8 种植被/水体/红边指数。
 
-    Returns: (evi, ndwi, savi, lswi, ndmi, ndre, rvi)
+    Returns: (evi, ndwi, savi, lswi, ndmi, ndre, rvi, mndwi)
     """
     eps = 1e-10
 
@@ -47,6 +47,13 @@ def compute_indices(blue, green, red, nir, swir1=None, re1=None, re2=None):
         lswi = np.zeros_like(nir)
         ndmi = np.zeros_like(nir)
 
+    # 水体指数 MNDWI（对开阔水面/移栽期浅水更敏感，弥补 LSWI/NDMI 对水体的不足）
+    if swir1 is not None:
+        denom_mndwi = green + swir1
+        mndwi = np.where(np.abs(denom_mndwi) > eps, (green - swir1) / denom_mndwi, 0.0)
+    else:
+        mndwi = np.zeros_like(nir)
+
     # 红边指数 (需 B05/B06/B07)
     if re1 is not None:  # B05
         ndre = np.where(np.abs(nir + re1) > eps, (nir - re1) / (nir + re1), 0.0)
@@ -56,7 +63,7 @@ def compute_indices(blue, green, red, nir, swir1=None, re1=None, re2=None):
     # 比值植被指数
     rvi = np.where(np.abs(red) > eps, nir / (red + eps), 0.0)
 
-    return evi, ndwi, savi, lswi, ndmi, ndre, rvi
+    return evi, ndwi, savi, lswi, ndmi, ndre, rvi, mndwi
 
 
 def compute_temporal_stats(values_2d):
@@ -154,7 +161,7 @@ def compute_feature_matrix(band_values, scene_labels, available_bands=None):
 
     # === Layer 2: 植被指数（每景）===
     nir_idx = {lbl: i for i, lbl in enumerate(scene_labels)}
-    vi_names = ['NDVI', 'EVI', 'NDWI', 'SAVI', 'LSWI', 'NDMI', 'NDRE', 'RVI']
+    vi_names = ['NDVI', 'EVI', 'NDWI', 'SAVI', 'LSWI', 'NDMI', 'NDRE', 'RVI', 'MNDWI']
 
     # 收集每个场景的 VI
     vi_per_scene = {vn: [] for vn in vi_names}
@@ -166,7 +173,7 @@ def compute_feature_matrix(band_values, scene_labels, available_bands=None):
         swir1 = band_values.get('%s_B11' % lbl, None)
         re1 = band_values.get('%s_B05' % lbl, None)
 
-        evi_arr, ndwi_arr, savi_arr, lswi_arr, ndmi_arr, ndre_arr, rvi_arr = \
+        evi_arr, ndwi_arr, savi_arr, lswi_arr, ndmi_arr, ndre_arr, rvi_arr, mndwi_arr = \
             compute_indices(blue, green, red, nir,
                             swir1=swir1 if swir1 is not None else None,
                             re1=re1 if re1 is not None else None)
@@ -176,7 +183,7 @@ def compute_feature_matrix(band_values, scene_labels, available_bands=None):
         ndvi_arr = np.where(denom > 1e-10, (nir - red) / denom, 0.0)
 
         indices = [ndvi_arr, evi_arr, ndwi_arr, savi_arr,
-                   lswi_arr, ndmi_arr, ndre_arr, rvi_arr]
+                   lswi_arr, ndmi_arr, ndre_arr, rvi_arr, mndwi_arr]
         for vn, arr in zip(vi_names, indices):
             vi_per_scene[vn].append(arr)
 
@@ -214,13 +221,19 @@ def compute_feature_matrix(band_values, scene_labels, available_bands=None):
         feature_data.append(np.nan_to_num(pheno[pk], nan=0.0))
         feature_cols.append('PHENO_%s' % pk)
 
-    # 淹水检测（水稻特征）
-    if 'LSWI' in vi_per_scene and len(vi_per_scene['LSWI']) >= 2:
+    # 淹水检测（水稻移栽期特征）：LSWI 或 MNDWI 任一高于 NDVI 即判淹水
+    if 'LSWI' in vi_per_scene and len(vi_per_scene['LSWI']) >= 1:
         lswi_early = vi_per_scene['LSWI'][0]
         ndvi_early = vi_per_scene['NDVI'][0]
-        flooding = np.where(lswi_early > ndvi_early, 1.0, 0.0)
+        mndwi_early = vi_per_scene['MNDWI'][0] if 'MNDWI' in vi_per_scene else np.zeros_like(ndvi_early)
+        # 0/1 淹水标志（更鲁棒：任一水分指数高于植被信号）
+        flooding = np.where((lswi_early > ndvi_early) | (mndwi_early > ndvi_early), 1.0, 0.0)
         feature_data.append(flooding)
         feature_cols.append('PHENO_flooding')
+        # 连续淹水强度（水分指数相对 NDVI 的超额量）
+        intensity = np.maximum(lswi_early - ndvi_early, mndwi_early - ndvi_early)
+        feature_data.append(np.nan_to_num(intensity, nan=0.0))
+        feature_cols.append('PHENO_flooding_intensity')
 
     # === Layer 5: 首尾差值（变化方向）===
     for vn in vi_names[:4]:  # NDVI, EVI, NDWI, SAVI

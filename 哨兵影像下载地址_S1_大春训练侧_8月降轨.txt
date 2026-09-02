@@ -1,0 +1,28 @@
+# 大春训练侧(23县库) Sentinel-1 GRD VV+VH 下载链接 —— 8月降轨(descending)补下
+# 用途：补齐 8 月期（5/6/7 月已下，8 月此前误下了升轨、漏了降轨）
+# 降轨(清晨 23:xx UTC 过境)是覆盖雅安水稻区的那条轨道（5/6月的 45E8/8E10 同轨道）
+# 目录名请用 product ID 后4位（60BC / 135F / AF6C / C5A9 / 22D7 / 1DDB），与现有 S1A数据 目录命名一致
+
+# S1A_IW_GRDH_1SDV_20250805T231313_20250805T231342_060407_078232_60BC  2025-08-05  降轨
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/5/IW/DV/S1A_IW_GRDH_1SDV_20250805T231313_20250805T231342_060407_078232_60BC/measurement/iw-vv.tiff
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/5/IW/DV/S1A_IW_GRDH_1SDV_20250805T231313_20250805T231342_060407_078232_60BC/measurement/iw-vh.tiff
+
+# S1C_IW_GRDH_1SDV_20250806T230403_20250806T230428_003558_00720A_135F  2025-08-06  降轨
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/6/IW/DV/S1C_IW_GRDH_1SDV_20250806T230403_20250806T230428_003558_00720A_135F/measurement/iw-vv.tiff
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/6/IW/DV/S1C_IW_GRDH_1SDV_20250806T230403_20250806T230428_003558_00720A_135F/measurement/iw-vh.tiff
+
+# S1C_IW_GRDH_1SDV_20250811T231214_20250811T231239_003631_007448_AF6C  2025-08-11  降轨
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/11/IW/DV/S1C_IW_GRDH_1SDV_20250811T231214_20250811T231239_003631_007448_AF6C/measurement/iw-vv.tiff
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/11/IW/DV/S1C_IW_GRDH_1SDV_20250811T231214_20250811T231239_003631_007448_AF6C/measurement/iw-vh.tiff
+
+# S1C_IW_GRDH_1SDV_20250818T230404_20250818T230429_003733_00774C_C5A9  2025-08-18  降轨
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/18/IW/DV/S1C_IW_GRDH_1SDV_20250818T230404_20250818T230429_003733_00774C_C5A9/measurement/iw-vv.tiff
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/18/IW/DV/S1C_IW_GRDH_1SDV_20250818T230404_20250818T230429_003733_00774C_C5A9/measurement/iw-vh.tiff
+
+# S1C_IW_GRDH_1SDV_20250823T231214_20250823T231239_003806_007985_22D7  2025-08-23  降轨（备选，8月底）
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/23/IW/DV/S1C_IW_GRDH_1SDV_20250823T231214_20250823T231239_003806_007985_22D7/measurement/iw-vv.tiff
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/8/23/IW/DV/S1C_IW_GRDH_1SDV_20250823T231214_20250823T231239_003806_007985_22D7/measurement/iw-vh.tiff
+
+# S1A_IW_GRDH_1SDV_20250731T230508_20250731T230533_060334_077FAD_1DDB  2025-07-31  降轨（备选，8月初可用）
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/7/31/IW/DV/S1A_IW_GRDH_1SDV_20250731T230508_20250731T230533_060334_077FAD_1DDB/measurement/iw-vv.tiff
+https://sentinel-s1-l1c.s3.eu-central-1.amazonaws.com/GRD/2025/7/31/IW/DV/S1A_IW_GRDH_1SDV_20250731T230508_20250731T230533_060334_077FAD_1DDB/measurement/iw-vh.tiff

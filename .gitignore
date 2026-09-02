@@ -52,3 +52,39 @@ cdse_config.txt
 
 # 归档废代码
 _archive/
+
+# ===== 补充：数据目录（不提交）=====
+待训练数据*/
+待测试数据*/
+待检查数据*/
+数据集/
+前进村数字底图数据/
+地图分割数据/
+蓬溪县数据/
+2024小春/
+20260902绵阳(项目任务区)/
+果树识别-待测试成果/
+果树识别_step1_coldstart/data/
+qianjincun_crop/
+前进村结果/
+A Parallel-Cascaded Ensemble/images/
+
+# ===== 补充：数据/影像/矢量辅助文件类型（不提交）=====
+*.npy
+*.npz
+nul
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.sbn
+*.sbx
+*.qmd
+*.ovr
+*.shp.xml
+*.pdf
+*.gdb
+*.lock
+*.cpg
+*.qpj
+

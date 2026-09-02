@@ -1,0 +1,39 @@
+================================================================
+48SWA 瓦片 6 月影像补下说明（前进村水稻识别排查）
+================================================================
+
+结论：48SWA 2025 年 6 月【无低云影像可补】，06-12 这一景不存在，
+      整个 6 月 7 景云量全部 >= 92.72%，06-04（云量 92.72%）已是当月最低云量。
+      前进村水稻识别失败的根因 = 48SWA 6 月影像被云全覆盖，而非单纯日期偏早。
+
+------------------------------------------------------------
+48SWA 2025-06 月全部候选（按云量升序，供参考，均不推荐）
+------------------------------------------------------------
+日期        云量     scene_id
+2025-06-04  92.72%  S2C_48SWA_20250604_0_L2A   <== 当前已下载
+2025-06-09  94.00%  S2B_48SWA_20250609_0_L2A
+2025-06-14  96.77%  S2C_48SWA_20250614_0_L2A
+2025-06-26  97.30%  S2A_48SWA_20250626_0_L2A
+2025-06-06  99.97%  S2A_48SWA_20250606_0_L2A
+2025-06-19  99.99%  S2B_48SWA_20250619_0_L2A
+2025-06-29 100.00%  S2B_48SWA_20250629_0_L2A
+
+------------------------------------------------------------
+替代建议：用相邻瓦片 48SVA 的 06-12（云量 9.53%）作前进村 6 月影像
+------------------------------------------------------------
+前进村 easting≈504km，落在 48SVA 影像内（48SVA 影像覆盖到约 510km）。
+48SVA 06-12 低云质量好，可替代 48SWA 的 6 月高云影像。
+
+48SVA 06-12 下载链接（10 波段）：
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B02.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B03.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B04.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B05.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B06.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B07.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B08.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B8A.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B11.tif
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/48/S/VA/2025/6/S2B_48SVA_20250612_0_L2A/B12.tif
+
+================================================================
