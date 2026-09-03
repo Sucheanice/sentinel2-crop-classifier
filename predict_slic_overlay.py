@@ -151,9 +151,6 @@ def overlay_assign(slic_pred, external_gdf):
         cf = r['prdct_cf']
         if fid not in best_map.index:
             if cf in ('水稻', '玉米'):
-                # 有过滤器时：只有过滤器也判为耕地，才算"真漏给"；否则归为未匹配(非作物)
-                if 'is_crop' in r.index and int(r['is_crop']) == 0:
-                    return '未匹配(非作物)'
                 return '未匹配-疑似甲方漏给'
             return '未匹配(非作物)'
         fe = best_map.loc[fid, 'fid_ext']

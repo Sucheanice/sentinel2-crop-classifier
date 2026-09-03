@@ -3,7 +3,7 @@
 
 特征体系（v2 升级）：
   Layer 1 - 原始波段 zonal mean：B02/B03/B04/B05/B06/B07/B08/B8A/B11/B12
-  Layer 2 - 植被指数时序：NDVI/EVI/NDWI/SAVI/LSWI/NDMI/NDRE 每景
+  Layer 2 - 植被指数时序：NDVI/EVI/NDWI/SAVI/LSWI/NDRE/RVI/MNDWI 每景
   Layer 3 - 时序统计：每波段/VI 跨日期 min/max/mean/std/range
   Layer 4 - 物候指标：NDVI振幅、峰值日期、生长斜率
   Layer 5 - 波段比值：RVI(B08/B04) 等
@@ -25,9 +25,9 @@ BANDS_TRAIN = ["B02", "B03", "B04", "B08"]
 
 
 def compute_indices(blue, green, red, nir, swir1=None, re1=None, re2=None):
-    """逐像素计算 8 种植被/水体/红边指数。
+    """逐像素计算 7 种植被/水体/红边指数。
 
-    Returns: (evi, ndwi, savi, lswi, ndmi, ndre, rvi, mndwi)
+    Returns: (evi, ndwi, savi, lswi, ndre, rvi, mndwi)
     """
     eps = 1e-10
 
@@ -37,17 +37,14 @@ def compute_indices(blue, green, red, nir, swir1=None, re1=None, re2=None):
     ndwi = np.where(np.abs(green + nir) > eps, (green - nir) / (green + nir), 0.0)
     savi = np.where(np.abs(nir + red + 0.5) > eps, 1.5 * (nir - red) / (nir + red + 0.5), 0.0)
 
-    # 水分/湿度指数
+    # 水分指数 LSWI（与 NDMI 同公式，仅保留 LSWI 避免重复特征）
     if swir1 is not None:
         denom_lswi = nir + swir1
         lswi = np.where(np.abs(denom_lswi) > eps, (nir - swir1) / denom_lswi, 0.0)
-        denom_ndmi = nir + swir1
-        ndmi = np.where(np.abs(denom_ndmi) > eps, (nir - swir1) / denom_ndmi, 0.0)
     else:
         lswi = np.zeros_like(nir)
-        ndmi = np.zeros_like(nir)
 
-    # 水体指数 MNDWI（对开阔水面/移栽期浅水更敏感，弥补 LSWI/NDMI 对水体的不足）
+    # 水体指数 MNDWI（对开阔水面/移栽期浅水更敏感，弥补 LSWI 对水体的不足）
     if swir1 is not None:
         denom_mndwi = green + swir1
         mndwi = np.where(np.abs(denom_mndwi) > eps, (green - swir1) / denom_mndwi, 0.0)
@@ -63,7 +60,7 @@ def compute_indices(blue, green, red, nir, swir1=None, re1=None, re2=None):
     # 比值植被指数
     rvi = np.where(np.abs(red) > eps, nir / (red + eps), 0.0)
 
-    return evi, ndwi, savi, lswi, ndmi, ndre, rvi, mndwi
+    return evi, ndwi, savi, lswi, ndre, rvi, mndwi
 
 
 def compute_temporal_stats(values_2d):
@@ -74,13 +71,12 @@ def compute_temporal_stats(values_2d):
     Returns:
         stats dict: {min, max, mean, std, range, first, last}
     """
-    valid = np.where(~np.isnan(values_2d), values_2d, 0.0)
     return {
-        'min': np.min(values_2d, axis=1),
-        'max': np.max(values_2d, axis=1),
-        'mean': np.mean(values_2d, axis=1),
+        'min': np.nanmin(values_2d, axis=1),
+        'max': np.nanmax(values_2d, axis=1),
+        'mean': np.nanmean(values_2d, axis=1),
         'std': np.nanstd(values_2d, axis=1),
-        'range': np.max(values_2d, axis=1) - np.min(values_2d, axis=1),
+        'range': np.nanmax(values_2d, axis=1) - np.nanmin(values_2d, axis=1),
     }
 
 
@@ -161,7 +157,7 @@ def compute_feature_matrix(band_values, scene_labels, available_bands=None):
 
     # === Layer 2: 植被指数（每景）===
     nir_idx = {lbl: i for i, lbl in enumerate(scene_labels)}
-    vi_names = ['NDVI', 'EVI', 'NDWI', 'SAVI', 'LSWI', 'NDMI', 'NDRE', 'RVI', 'MNDWI']
+    vi_names = ['NDVI', 'EVI', 'NDWI', 'SAVI', 'LSWI', 'NDRE', 'RVI', 'MNDWI']
 
     # 收集每个场景的 VI
     vi_per_scene = {vn: [] for vn in vi_names}
@@ -173,7 +169,7 @@ def compute_feature_matrix(band_values, scene_labels, available_bands=None):
         swir1 = band_values.get('%s_B11' % lbl, None)
         re1 = band_values.get('%s_B05' % lbl, None)
 
-        evi_arr, ndwi_arr, savi_arr, lswi_arr, ndmi_arr, ndre_arr, rvi_arr, mndwi_arr = \
+        evi_arr, ndwi_arr, savi_arr, lswi_arr, ndre_arr, rvi_arr, mndwi_arr = \
             compute_indices(blue, green, red, nir,
                             swir1=swir1 if swir1 is not None else None,
                             re1=re1 if re1 is not None else None)
@@ -183,7 +179,7 @@ def compute_feature_matrix(band_values, scene_labels, available_bands=None):
         ndvi_arr = np.where(denom > 1e-10, (nir - red) / denom, 0.0)
 
         indices = [ndvi_arr, evi_arr, ndwi_arr, savi_arr,
-                   lswi_arr, ndmi_arr, ndre_arr, rvi_arr, mndwi_arr]
+                   lswi_arr, ndre_arr, rvi_arr, mndwi_arr]
         for vn, arr in zip(vi_names, indices):
             vi_per_scene[vn].append(arr)
 

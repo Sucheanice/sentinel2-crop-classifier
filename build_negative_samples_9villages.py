@@ -61,8 +61,9 @@ def main():
         sc = slic.to_crs(lu.crs).copy()
         sc['geometry'] = sc.geometry.centroid
         j = gpd.sjoin(sc[['label', 'geometry']], lu, how='left', predicate='within')
-        slic['is_crop'] = j['is_crop'].values
-        slic['DLMC_name'] = j['DLMC_name'].values
+        j = j[~j.index.duplicated(keep='first')]
+        slic['is_crop'] = j['is_crop'].reindex(slic.index).values
+        slic['DLMC_name'] = j['DLMC_name'].reindex(slic.index).values
 
         n_crop = int((slic['is_crop'] == 1).sum())
         n_neg = int((slic['is_crop'] == 0).sum())
