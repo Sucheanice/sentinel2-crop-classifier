@@ -10,7 +10,8 @@
 
 用法：
   python predict_slic_overlay.py --slic slic_objects.gpkg --external 外部地块.shp \
-      --model dachun_binary_23counties_3dekad.pkl --output 结果目录
+      --model dachun_binary_23counties_3dekad_wide.pkl \
+      --model2 dachun_binary_2dekad_wide.pkl --output 结果目录
 """
 import os
 import sys
@@ -23,7 +24,8 @@ import geopandas as gpd
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
 from predict_dachun_gee import (run_predict, BANDS_GEE, BANDS_FEAT, BAND_MAP, PHASES,
-                                NDVI_VEG, CONF_LOW, CONF_HIGH, PX_MIN)
+                                NDVI_VEG, CONF_LOW, CONF_HIGH, PX_MIN, extract_features,
+                                WIDE_WINDOWS, PRDCT_NOTE)
 from common import compute_feature_matrix
 
 
@@ -61,13 +63,35 @@ def apply_cropland_filter(slic_gdf, filter_bundle):
     return filter_bundle['model'].predict(X)
 
 
-def predict_slic(slic_gdf, bundle):
+def _apply_fallback_bundle(base_gdf, feat_df, out, bundle):
+    """对「云覆盖缺失」对象用降维(两旬)模型重判，覆盖有效作物标签。
+
+    bundle2(D04+D14) 救 D11 缺失；bundle3(D11+D14) 救 D04 缺失。
+    """
+    mask = (out['prdct_cf'].values == '云覆盖缺失')
+    if not mask.any():
+        return out
+    out2 = run_predict(base_gdf, feat_df, bundle)
+    upd = mask & out2['prdct_cf'].isin(['水稻', '玉米']).values
+    if upd.any():
+        for col in ['ndvi_max', 'ndvi_flag', 'predicted', 'prdct_lbl',
+                    'max_prob', 'conf_flag', 'prdct_cf', 'buf_pixel', 'px_statu',
+                    'prdct_note']:
+            out.loc[upd, col] = out2.loc[upd, col].values
+    return out
+
+
+def predict_slic(slic_gdf, bundle, bundle2=None, bundle3=None):
     """对每个超像素对象做水稻/玉米二分类（无过滤），返回带 11 字段的 GeoDataFrame。"""
     band_names = [f'{p}_{b}' for p in PHASES for b in BANDS_GEE]
     feat_df = slic_gdf[['fid', 'buf_pixel'] + band_names].copy()
     out = run_predict(slic_gdf, feat_df, bundle)
     # parcel_id 用干净序号（fid+1）；SNIC 原始 cluster id 可能为负/超 int32，不作 parcel_id
     out['parcel_id'] = out['fid'] + 1
+    if bundle2 is not None:
+        out = _apply_fallback_bundle(slic_gdf, feat_df, out, bundle2)
+    if bundle3 is not None:
+        out = _apply_fallback_bundle(slic_gdf, feat_df, out, bundle3)
     return out
 
 
@@ -130,12 +154,14 @@ def overlay_assign(slic_pred, external_gdf):
             'prdct_cf': main_cf,
             'buf_pixel': int(buf_pixel),
             'px_statu': px_statu,
+            'prdct_note': PRDCT_NOTE.get(main_cf, ''),
         })
 
     out_a = e.copy()
     df_a = pd.DataFrame(rows_a).set_index('fid_ext')
     for col in ['area_m2', 'ndvi_max', 'ndvi_flag', 'predicted', 'prdct_lbl',
-                'max_prob', 'conf_flag', 'prdct_cf', 'buf_pixel', 'px_statu']:
+                'max_prob', 'conf_flag', 'prdct_cf', 'buf_pixel', 'px_statu',
+                'prdct_note']:
         out_a[col] = out_a['fid_ext'].map(df_a[col])
     out_a['parcel_id'] = out_a['fid_ext'] + 1
 
@@ -173,19 +199,62 @@ def overlay_assign(slic_pred, external_gdf):
     return out_a, out_b
 
 
+def parcel_fallback(miss_external_gdf, bundle, bundle2=None, bundle3=None):
+    """小地块兜底：对「未匹配到超像素」的地块，直接用 GEE 地块级 zonal mean 特征预测。
+
+    用加宽窗口（WIDE_WINDOWS，每旬 20 天）提取，显著降低云覆盖 NaN（文通镇 71%→4%），
+    避免 NaN fillna(0) 后模型误判为水稻。
+
+    Args:
+        miss_external_gdf: 未匹配的外部地块 GeoDataFrame（原 CRS，含 geometry）
+        bundle: 三旬模型 pkl bundle
+        bundle2: 两旬(D04+D14)降维模型 pkl bundle（可选，救 D11 云覆盖缺失地块）
+        bundle3: 两旬(D11+D14)降维模型 pkl bundle（可选，救 D04 云覆盖缺失地块）
+    Returns:
+        带 11 个质量字段的 GeoDataFrame（行顺序与输入一致）
+    """
+    g = miss_external_gdf.reset_index(drop=True).copy()
+    g['fid'] = range(len(g))
+    g_wgs84 = g.to_crs('EPSG:4326')
+    g_wgs84['geometry'] = g_wgs84['geometry'].simplify(tolerance=0.0001, preserve_topology=True)
+    feat_df = extract_features(g_wgs84, windows=WIDE_WINDOWS)
+    out = run_predict(g, feat_df, bundle)
+    if bundle2 is not None:
+        out = _apply_fallback_bundle(g, feat_df, out, bundle2)
+    if bundle3 is not None:
+        out = _apply_fallback_bundle(g, feat_df, out, bundle3)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--slic', required=True, help='slic_objects.gpkg 路径')
     ap.add_argument('--external', required=True, help='外部地块 shp/gpkg')
-    ap.add_argument('--model', required=True, help='模型 pkl')
+    ap.add_argument('--model', required=True, help='模型 pkl（三旬 D04/D11/D14）')
+    ap.add_argument('--model2', default=None, help='两旬(D04+D14)降维模型 pkl（可选，救 D11 云覆盖缺失）')
+    ap.add_argument('--model3', default=None, help='两旬(D11+D14)降维模型 pkl（可选，救 D04 云覆盖缺失）')
     ap.add_argument('--filter', default=None, help='耕地/非耕地过滤器 pkl（可选）')
     ap.add_argument('--output', required=True, help='输出目录')
     ap.add_argument('--name', default='slic_overlay', help='输出前缀')
+    ap.add_argument('--no-fallback', action='store_true',
+                    help='关闭小地块兜底（默认开启：未匹配超像素的地块改用 GEE 地块级特征预测）')
     args = ap.parse_args()
 
     with open(args.model, 'rb') as f:
         bundle = pickle.load(f)
     print(f"[model] {bundle.get('model_type')} 类别={bundle.get('class_names')}")
+
+    bundle2 = None
+    if args.model2:
+        with open(args.model2, 'rb') as f:
+            bundle2 = pickle.load(f)
+        print(f"[model2] {bundle2.get('model_type')} 类别={bundle2.get('class_names')} phases={bundle2.get('phases')}")
+
+    bundle3 = None
+    if args.model3:
+        with open(args.model3, 'rb') as f:
+            bundle3 = pickle.load(f)
+        print(f"[model3] {bundle3.get('model_type')} 类别={bundle3.get('class_names')} phases={bundle3.get('phases')}")
 
     filter_bundle = None
     if args.filter:
@@ -200,7 +269,7 @@ def main():
     print(f'[external] {len(external_gdf)} 个外部地块')
 
     # 1) 预测（无过滤，输出A 用纯二分类结果）
-    slic_pred = predict_slic(slic_gdf, bundle)
+    slic_pred = predict_slic(slic_gdf, bundle, bundle2=bundle2, bundle3=bundle3)
     # 过滤器只用于输出B 质检：附加 is_crop 列（1=耕地, 0=非耕地）
     if filter_bundle is not None:
         slic_pred['is_crop'] = apply_cropland_filter(slic_gdf, filter_bundle)
@@ -209,6 +278,22 @@ def main():
 
     # 2) 套合
     out_a, out_b = overlay_assign(slic_pred, external_gdf)
+
+    # 3) 小地块兜底：未匹配超像素的地块 → 地块级 GEE 特征预测
+    if not args.no_fallback:
+        miss_mask = out_a['prdct_cf'].isna().values
+        n_miss = int(miss_mask.sum())
+        if n_miss > 0:
+            print(f'\n[fallback] {n_miss} 块未匹配超像素，改用 GEE 地块级特征预测兜底...')
+            miss_gdf = external_gdf[miss_mask].copy()
+            fb = parcel_fallback(miss_gdf, bundle, bundle2=bundle2, bundle3=bundle3)
+            fb_cols = ['ndvi_max', 'ndvi_flag', 'predicted', 'prdct_lbl',
+                       'max_prob', 'conf_flag', 'prdct_cf', 'buf_pixel', 'px_statu',
+                       'prdct_note']
+            for col in fb_cols:
+                out_a.loc[miss_mask, col] = fb[col].values
+            n_filled = int(out_a.loc[miss_mask, 'prdct_cf'].notna().sum())
+            print(f'  兜底完成，有效预测 {n_filled}/{n_miss}')
 
     os.makedirs(args.output, exist_ok=True)
     a_base = os.path.join(args.output, args.name + '_A_赋值')

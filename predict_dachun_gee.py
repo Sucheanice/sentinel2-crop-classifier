@@ -11,7 +11,7 @@
   max_prob / conf_flag / prdct_cf / buf_pixel / px_statu
 
 用法：
-  python predict_dachun_gee.py --input 地块.shp --output 结果目录 --model dachun_binary_23counties_3dekad.pkl
+  python predict_dachun_gee.py --input 地块.shp --output 结果目录 --model dachun_binary_23counties_3dekad_wide.pkl
 """
 import ee
 import os
@@ -36,6 +36,14 @@ WINDOWS = [
 ]
 PHASES = [p for p, _, _ in WINDOWS]
 
+# 加宽窗口（每旬 10 天 -> 20 天，前后各扩 5 天）：用于云覆盖严重区补提取
+# 相位名与 WINDOWS 一致，仅时间范围放宽，模型特征口径不变
+WIDE_WINDOWS = [
+    ('D04', '2025-04-25', '2025-05-15'),
+    ('D11', '2025-07-05', '2025-07-25'),
+    ('D14', '2025-08-05', '2025-08-25'),
+]
+
 # GEE 输出波段名（B2/B3...）与特征工程口径（B02/B03...）映射
 BANDS_GEE = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B8A', 'B11', 'B12']
 BANDS_FEAT = ["B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B11", "B12"]
@@ -49,6 +57,16 @@ CONF_LOW = 0.60
 CONF_HIGH = 0.70
 PX_MIN = 3
 
+# prdct_cf -> 中文说明（交付备注字段 prdct_note）
+PRDCT_NOTE = {
+    '无覆盖': '地块无有效像元覆盖',
+    '非植被(建筑/道路/裸土)': 'NDVI过低，判定为非植被（建筑/道路/裸土）',
+    '云覆盖缺失': '因影像部分波段被云层遮挡，无法辨认',
+    '不确定': '有有效像元但分类概率不足，无法确认',
+    '水稻': '分类为水稻',
+    '玉米': '分类为玉米',
+}
+
 
 def mask_s2_clouds(img):
     scl = img.select('SCL')
@@ -56,19 +74,24 @@ def mask_s2_clouds(img):
     return img.updateMask(cloud.Not())
 
 
-def build_composite(roi):
+def build_composite(roi, windows=None):
+    windows = windows or WINDOWS
     s2 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED').filterBounds(roi)
     composite = None
-    for prefix, start, end in WINDOWS:
+    for prefix, start, end in windows:
         col = s2.filterDate(start, end).map(mask_s2_clouds)
         med = col.select(BANDS_GEE).median().rename([f'{prefix}_{b}' for b in BANDS_GEE])
         composite = med if composite is None else composite.addBands(med)
     return composite
 
 
-def extract_features(gdf_wgs84):
-    """GEE 提取关键3旬 zonal mean + 有效像元计数，返回 DataFrame（fid + 波段 + buf_pixel）。"""
-    band_names = [f'{p}_{b}' for p, _, _ in WINDOWS for b in BANDS_GEE]
+def extract_features(gdf_wgs84, windows=None):
+    """GEE 提取关键3旬 zonal mean + 有效像元计数，返回 DataFrame（fid + 波段 + buf_pixel）。
+
+    windows 可传入加宽窗口（如 WIDE_WINDOWS），相位名不变，仅时间范围放宽。
+    """
+    windows = windows or WINDOWS
+    band_names = [f'{p}_{b}' for p, _, _ in windows for b in BANDS_GEE]
     n = len(gdf_wgs84)
 
     rows = []
@@ -77,16 +100,16 @@ def extract_features(gdf_wgs84):
     for bi in range(nb):
         sub = gdf_wgs84.iloc[bi * BATCH_SIZE:(bi + 1) * BATCH_SIZE]
         sub_fc = ee.FeatureCollection(sub[['fid', 'geometry']].__geo_interface__['features'])
-        composite = build_composite(sub_fc.geometry())
+        composite = build_composite(sub_fc.geometry(), windows=windows)
 
         reduced = composite.reduceRegions(
             collection=sub_fc, reducer=ee.Reducer.mean(), scale=10, tileScale=4,
         ).select(['fid'] + band_names)
 
         # 有效像元计数：三旬 B8 掩膜并集（任一旬有有效像元即算覆盖），sum=有效10m像素数
-        valid_any = (composite.select(f'{WINDOWS[0][0]}_B8').mask()
-                     .Or(composite.select(f'{WINDOWS[1][0]}_B8').mask())
-                     .Or(composite.select(f'{WINDOWS[2][0]}_B8').mask()))
+        valid_any = (composite.select(f'{windows[0][0]}_B8').mask()
+                     .Or(composite.select(f'{windows[1][0]}_B8').mask())
+                     .Or(composite.select(f'{windows[2][0]}_B8').mask()))
         reduced_cnt = valid_any.reduceRegions(
             collection=sub_fc, reducer=ee.Reducer.sum().unweighted(), scale=10, tileScale=4,
         )
@@ -118,26 +141,37 @@ def area_m2(gdf):
 
 
 def run_predict(gdf_orig, feat_df, bundle):
-    """组装 11 个质量字段，返回带预测结果的 GeoDataFrame。"""
+    """组装 11 个质量字段，返回带预测结果的 GeoDataFrame。
+
+    bundle 可含 'phases'（三旬 ['D04','D11','D14'] 或两旬 ['D04','D14']），
+    特征口径与训练时一致。
+    """
     df = feat_df.copy()
+    phases = bundle.get('phases', PHASES)
 
     # 1) 波段名归一化 D04_B2 -> D04_B02
     rename = {}
     for c in df.columns:
         if '_' in c:
             p, b = c.rsplit('_', 1)
-            if b in BAND_MAP and p in PHASES:
+            if b in BAND_MAP and p in phases:
                 rename[c] = f'{p}_{BAND_MAP[b]}'
     df = df.rename(columns=rename)
 
+    # GEE 对全掩膜地块返回 None（非 NaN），统一转 float（None→NaN）避免 compute_indices 报 TypeError
+    for c in df.columns:
+        if c not in ('fid', 'buf_pixel'):
+            df[c] = pd.to_numeric(df[c], errors='coerce').astype(np.float64)
+    df['buf_pixel'] = pd.to_numeric(df['buf_pixel'], errors='coerce').fillna(0).astype(np.float64)
+
     # 2) 特征工程（与训练一致）
     band_values = {}
-    for p in PHASES:
+    for p in phases:
         for b in BANDS_FEAT:
             col = f'{p}_{b}'
             if col in df.columns:
                 band_values[col] = df[col].values
-    X, fnames = compute_feature_matrix(band_values, PHASES, available_bands=BANDS_FEAT)
+    X, fnames = compute_feature_matrix(band_values, phases, available_bands=BANDS_FEAT)
     X = pd.DataFrame(X, columns=fnames)
 
     selected = bundle.get('selected_features', list(X.columns))
@@ -155,9 +189,9 @@ def run_predict(gdf_orig, feat_df, bundle):
 
     # 4) 三阈值联合判断链
     buf_pixel = df['buf_pixel'].values
-    # NDVI 三期最大值（NDVI=(B08-B04)/(B08+B04)）
+    # NDVI 各旬最大值（NDVI=(B08-B04)/(B08+B04)）
     ndvi = []
-    for p in PHASES:
+    for p in phases:
         b8 = df.get(f'{p}_B08', pd.Series(np.zeros(len(df))))
         b4 = df.get(f'{p}_B04', pd.Series(np.zeros(len(df))))
         denom = b8.values.astype(float) + b4.values.astype(float)
@@ -165,15 +199,23 @@ def run_predict(gdf_orig, feat_df, bundle):
     ndvi_max = np.nanmax(np.vstack(ndvi), axis=0)
 
     ndvi_flag = np.where(ndvi_max >= NDVI_VEG, '植被', '非植被')
+
+    # 关键旬无有效像元 → B08 为 NaN，compute_feature_matrix 会 fillna(0)，
+    # 模型会把这种「假零值」系统性误判为水稻。这里单独标记，强制降级为不确定。
+    dekad_missing = df[[f'{p}_B08' for p in phases]].isna().any(axis=1).values
+
     conf_flag = np.where(
         ndvi_max < NDVI_VEG, '非植被',
-        np.where(max_prob >= CONF_HIGH, '高',
-                 np.where(max_prob >= CONF_LOW, '中', '低')))
+        np.where(dekad_missing, '低',
+                 np.where(max_prob >= CONF_HIGH, '高',
+                          np.where(max_prob >= CONF_LOW, '中', '低'))))
     prdct_cf = np.where(
         buf_pixel < 1, '无覆盖',
         np.where(ndvi_max < NDVI_VEG, '非植被(建筑/道路/裸土)',
-                 np.where(max_prob < CONF_LOW, '不确定', prdct_lbl)))
+                 np.where(dekad_missing, '云覆盖缺失',
+                          np.where(max_prob < CONF_LOW, '不确定', prdct_lbl))))
     px_statu = np.where(buf_pixel < PX_MIN, '过小(<3px)', 'OK')
+    prdct_note = np.array([PRDCT_NOTE.get(c, '') for c in prdct_cf])
 
     # 5) 回填原 gdf（按 fid 对齐）
     out = gdf_orig.copy()
@@ -191,6 +233,7 @@ def run_predict(gdf_orig, feat_df, bundle):
     out['prdct_cf'] = prdct_cf[idx]
     out['buf_pixel'] = buf_pixel[idx].astype(int)
     out['px_statu'] = px_statu[idx]
+    out['prdct_note'] = prdct_note[idx]
     return out
 
 

@@ -54,12 +54,17 @@ def build_composite(roi):
     return composite
 
 
-def build_seg_base(roi):
-    """分割底图：D11（7月中，作物旺期）median 真彩色 + NDVI。"""
+def build_seg_base(roi, wide=False):
+    """分割底图：作物旺期 median 真彩色 + NDVI。
+
+    用 D14（8月中）而非 D11（7月中）：文通镇 D11 无云占比仅 41%~48%（10/20天），
+    导致 SNIC 分割大面积空洞（55% 地块未被超像素覆盖）；D14 无云占比 81%~98%。
+    """
     s2 = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED').filterBounds(roi)
-    d11 = s2.filterDate('2025-07-11', '2025-07-20').map(mask_s2_clouds).median()
-    ndvi = d11.normalizedDifference(['B8', 'B4']).rename('NDVI')
-    return d11.select(['B4', 'B3', 'B2']).addBands(ndvi)
+    start, end = ('2025-08-05', '2025-08-25') if wide else ('2025-08-11', '2025-08-20')
+    d = s2.filterDate(start, end).map(mask_s2_clouds).median()
+    ndvi = d.normalizedDifference(['B8', 'B4']).rename('NDVI')
+    return d.select(['B4', 'B3', 'B2']).addBands(ndvi)
 
 
 def main():
