@@ -50,7 +50,6 @@ SEASON = {"冬": [12, 1, 2], "春": [3, 4, 5], "夏": [6, 7, 8], "秋": [9, 10, 
 
 
 def dekad_labels(year=2025):
-    import calendar
     out = []
     for m in range(1, 13):
         for k in (1, 2, 3):
@@ -169,7 +168,7 @@ def main():
             t = compare(fps["citrus"], fps["pomelo"], "柑橘", "蜜柚")
             op = os.path.join(a.out_dir, "指纹对比_柑橘vs蜜柚.csv")
             t.to_csv(op, index=False, encoding="utf-8-sig")
-            print(f"\n=== 柑橘 vs 蜜柚 可分性（Cohen's d 越大越好分）===")
+            print("\n=== 柑橘 vs 蜜柚 可分性（Cohen's d 越大越好分）===")
             print(t.head(12).to_string(index=False))
             n_ok = (t["可分辨"] == "是").sum()
             print(f"\n共 {len(t)} 个指标，可分辨 {n_ok} 个 -> {op}")

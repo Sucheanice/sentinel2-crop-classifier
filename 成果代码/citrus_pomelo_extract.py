@@ -183,7 +183,7 @@ def build_stack(aoi, year):
         c = s2.filterDate(st, en).map(mask_s2).select(BANDS).median()
         b2, b3, b4 = c.select("B2"), c.select("B3"), c.select("B4")
         b5, b6, b7 = c.select("B5"), c.select("B6"), c.select("B7")
-        b8, b11 = c.select("B8"), c.select("B11")
+        b8 = c.select("B8")
         idx = [
             ("NDVI", c.normalizedDifference(["B8", "B4"])),
             ("EVI", c.expression("2.5*(N-R)/(N+6*R-7.5*B+1)", {"N": b8, "R": b4, "B": b2})),
@@ -578,7 +578,6 @@ def main():
     if a.dry_run:
         for crop in ["citrus", "pomelo"]:
             t = towns_geometry(crop)
-            n_pts = sum(1 for _ in t)
             print(f"\n[{crop}] 匹配 {len(t)} 个产区：")
             for key, g, nv, lv in t:
                 print(f"   {key:<34} {lv}级 {nv:>3} 个村  bbox(4326)="
