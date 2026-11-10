@@ -1,0 +1,64 @@
+<mxfile host="app.diagrams.net" agent="TraeCode">
+  <diagram id="crop-recognition-flow" name="作物识别技术流程">
+    <mxGraphModel dx="1664" dy="874" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="920" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=22;fontStyle=1;fontColor=#1F3B5C;" value="作物识别技术流程" vertex="1">
+          <mxGeometry height="40" width="460" x="320" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="b1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=14;" value="&lt;b&gt;前序：0.5 m 高分影像&lt;/b&gt;&lt;br&gt;耕地 / 水体地块层（SHP）" vertex="1">
+          <mxGeometry height="68" width="460" x="320" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=14;" value="&lt;b&gt;GEE 云端影像处理&lt;/b&gt;&lt;br&gt;S2 L2A + SCL 云掩膜 + median 合成 → 逐地块波段均值" vertex="1">
+          <mxGeometry height="68" width="460" x="320" y="176" as="geometry" />
+        </mxCell>
+        <mxCell id="b3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=14;" value="&lt;b&gt;特征工程&lt;/b&gt;&lt;br&gt;光谱 + 植被指数 + 时序统计 + 物候 + 花敏感指数" vertex="1">
+          <mxGeometry height="68" width="460" x="320" y="282" as="geometry" />
+        </mxCell>
+        <mxCell id="b4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=14;" value="&lt;b&gt;分季节 LightGBM 二分类&lt;/b&gt;&lt;br&gt;大春 水稻 / 玉米　　小春 小麦 / 油菜" vertex="1">
+          <mxGeometry height="68" width="460" x="320" y="388" as="geometry" />
+        </mxCell>
+        <mxCell id="b5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=14;" value="&lt;b&gt;地块概率 + 三条阈值链联合判定&lt;/b&gt;&lt;br&gt;无覆盖 / 非植被 / 不确定 / 类别" vertex="1">
+          <mxGeometry height="68" width="460" x="320" y="494" as="geometry" />
+        </mxCell>
+        <mxCell id="b6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=14;" value="&lt;b&gt;置信度分级 + 矢量化&lt;/b&gt;&lt;br&gt;高 ≥0.70　　中 ≥0.60　　低 &amp;lt;0.60" vertex="1">
+          <mxGeometry height="68" width="460" x="320" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="b7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=14;" value="&lt;b&gt;产出&lt;/b&gt;&lt;br&gt;地块赋值层 / 质检明细 / 交付九列 xlsx / 预览图" vertex="1">
+          <mxGeometry height="68" width="460" x="320" y="706" as="geometry" />
+        </mxCell>
+        <mxCell id="left1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=14;" value="&lt;b&gt;影像时相&lt;/b&gt;&lt;br&gt;大春 5上 · 7上中 · 8中&lt;br&gt;小春 12 · 1 · 3 · 5 月" vertex="1">
+          <mxGeometry height="110" width="250" x="40" y="176" as="geometry" />
+        </mxCell>
+        <mxCell id="right1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1.5;fontSize=14;" value="&lt;b&gt;新区域样本校准&lt;/b&gt;&lt;br&gt;迁移验证 + 标签清洗" vertex="1">
+          <mxGeometry height="110" width="250" x="810" y="388" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="b1" style="edgeStyle=none;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="b2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="b2" style="edgeStyle=none;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="b3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="b3" style="edgeStyle=none;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="b4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="b4" style="edgeStyle=none;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="b5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="b5" style="edgeStyle=none;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="b6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="b6" style="edgeStyle=none;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="b7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_left" edge="1" parent="1" source="left1" style="edgeStyle=none;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="b2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_right" edge="1" parent="1" source="right1" style="edgeStyle=none;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="b4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 """citrus_pomelo_extract.py — 柑橘 / 蜜柚：GEE 全年多指数旬序列提取
 
-两种模式：
+三种模式：
   --mode source   来源产区：按 `四川省_村界.shp` 的乡镇范围随机点采样
-  --mode target   目标地块：按 0922 交付 shp 的地块做 zonal mean
+  --mode target   目标地块：按交付件 shp 的地块做 zonal mean
+  --mode parcel   作物地块（水稻/小麦/油菜等）：按已标注地块抽样，逐点取 540 维
 
-口径（与 orchard_explore.py 一致，指数扩到 9 个）：
+口径（与 orchard_explore.py 一致，指数扩到 15 个）：
   S2_SR_HARMONIZED + SCL 云掩膜 + median 旬合成，2025 全年 36 旬
-  9 指数 × 36 旬 = 324 维
+  15 指数 × 36 旬 = 540 维
 
 用法：
   python citrus_pomelo_extract.py --mode source --crop citrus  --out DIR [--points 400] [--limit 1]
@@ -24,6 +25,7 @@ import time
 
 import ee
 import geopandas as gpd
+import numpy as np
 import pandas as pd
 from shapely.ops import unary_union
 
@@ -61,7 +63,8 @@ def getinfo(obj, tries=12, wait=10):
 
 ROOT = r"e:\工作相关\2026年\0624 待测试数据"
 VILL = os.path.join(ROOT, r"训练与标注数据\0907村界等数据\绵阳\四川省村界\四川省村界\四川省_村界.shp")
-DELIV = os.path.join(ROOT, r"成果数据\0922 前序环节数据\MY第一批_我们的赋值")
+# 默认交付根（最新批次 1019）；1014/1016 的镇由 _read_target 跨批次自动查找
+DELIV = os.path.join(ROOT, r"成果数据\1019 第二版前序数据3\我们的赋值")
 
 S2 = "COPERNICUS/S2_SR_HARMONIZED"
 CLOUD_SCL = [3, 8, 9, 10, 11]
@@ -74,6 +77,9 @@ BATCH = 400
 # 指标前缀（15 个；NDII 与 LSWI 公式相同，按用户点名一并保留）
 IDX = ["NDVI", "EVI", "SAVI", "RVI", "NDWI", "MNDWI", "LSWI", "NDRE", "NDI45",
        "NDII", "CVI", "TCARI", "IRECI", "MTCI", "GCVI"]
+
+# parcel 模式：中文类别 → 库文件名用的英文键
+CLASS_KEY = {"水稻": "rice", "玉米": "corn", "小麦": "wheat", "油菜": "rape"}
 
 # ---- 来源产区（乡镇级按名称「包含」匹配村界库；给 village 则下沉到村级）----
 BB_CITRUS = [(103.28, 30.08, 103.62, 30.32), (103.30, 29.90, 103.60, 30.12),
@@ -140,13 +146,15 @@ REGIONS = {
     ],
 }
 
-# ---- 目标地块：0922 交付件（AOI 目录 → 镇名）----
+# ---- 目标地块：交付件（OUT/AOI 目录 → 镇名）----
 TARGETS = {
     "citrus": [("PW_OUT", "510727108", "水晶镇"), ("PW_OUT", "510727216", "豆叩羌族乡"),
                ("PW_OUT", "510727107", "大桥镇"), ("PW_OUT", "510727208", "旧堡羌族乡"),
                ("JY_OUT", "33", "新安镇"), ("JY_OUT", "38", "河口镇"),
                ("JY_OUT", "26", "太平镇"), ("JY_OUT", "42", "马角镇")],
     "pomelo": [("ZT_OUT", "510725103", "黎雅镇"), ("ZT_OUT", "510725112", "金龙镇")],
+    "peach": [],  # 桃：只建来源库
+    "rice": [], "wheat": [], "rape": [], "corn": [],   # 水稻/小麦/油菜/玉米：只建来源库（parcel 模式）
 }
 
 
@@ -256,17 +264,30 @@ def towns_geometry(crop, limit=None, gardens_only=False):
     return out
 
 
-def truth_regions(path):
+def truth_regions(path, density=100.0):
     """从「真值地块」矢量读产区（人工在 Google Earth 手绘、确知是目标作物的地块）。
-    返回 [(key, geometry, 建议采样点数, '真值')] —— 采样点数按面积 1 点/10m 像元估。"""
+    返回 [(key, geometry, 建议采样点数, '真值')] —— 采样点数按面积估：每 density m² 一个点（60~9000 截断）。"""
     g = gpd.read_file(path).to_crs("EPSG:4326")
     gm = g.to_crs(TARGET_CRS)
+    from shapely.geometry import MultiPolygon
+    from shapely.ops import transform as _tf
     out = []
     for i, (_, r) in enumerate(g.iterrows()):
         a_m2 = float(gm.geometry.iloc[i].area)
-        npts = int(min(9000, max(60, a_m2 / 100)))     # 1 点/像元，60~9000 截断
-        nm = str(r.get("名称", "真值"))
-        out.append((f"{nm}_{i:02d}", r.geometry, npts, "真值"))
+        npts = int(min(9000, max(60, a_m2 / max(density, 1.0))))
+        nm = str(r.get("名称") or r.get("Name") or r.get("name") or "真值")
+        geom = r.geometry
+        if geom is None or geom.is_empty:
+            continue
+        if geom.geom_type == "GeometryCollection":
+            geom = unary_union([p for p in geom.geoms
+                                if p.geom_type in ("Polygon", "MultiPolygon")])
+        if geom.geom_type == "Polygon":
+            geom = MultiPolygon([geom])
+        if not geom.is_valid:
+            geom = geom.buffer(0)
+        geom = _tf(lambda x, y, z=None: (x, y), geom)   # KML 常带 Z，ee 只要二维
+        out.append((f"{nm}_{i:02d}", geom, npts, "真值"))
     return out
 
 
@@ -290,12 +311,15 @@ def sample_region(stack, reg, npts, seed0=42):
 
 
 def run_source(crop, out_dir, points, limit=None, year=YEAR, shard=None, gardens_only=False,
-               truth_shp=None, tag_extra=""):
+               truth_shp=None, tag_extra="", truth_density=100.0):
     """一次构建堆叠（覆盖该 shard 全部产区的联合范围），各产区共用 → 省掉逐产区重建 36 旬合成。
     shard=(i, n) 时只跑第 i 片（0-based），用于多进程并行。
-    truth_shp 给定时，产区 = 该矢量里的真值地块（此时元组第 3 位即采样点数）。"""
+    truth_shp 给定时，产区 = 该矢量里的真值地块（此时元组第 3 位即采样点数）。
+    truth_density：真值模式下每多少 m² 采一个点（默认 100）。"""
     truth = bool(truth_shp)
-    towns = truth_regions(truth_shp) if truth else towns_geometry(crop, limit, gardens_only)
+    towns = truth_regions(truth_shp, truth_density) if truth else towns_geometry(crop, limit, gardens_only)
+    if limit:
+        towns = towns[:limit]
     if shard:
         i, n = shard
         towns = towns[i::n]
@@ -303,7 +327,17 @@ def run_source(crop, out_dir, points, limit=None, year=YEAR, shard=None, gardens
     if not towns:
         print("!! 未匹配到任何产区")
         return None
-    union = unary_union([g for _, g, *_ in towns])
+    from shapely.geometry import MultiPolygon
+    gs = [g if g.is_valid else g.buffer(0) for _, g, *_ in towns]
+    union = unary_union(gs)
+    if union.geom_type == "GeometryCollection":
+        union = unary_union([p for p in union.geoms
+                             if p.geom_type in ("Polygon", "MultiPolygon")])
+    if union.geom_type == "Polygon":
+        union = MultiPolygon([union])
+    union = union.simplify(0.00005, preserve_topology=True)
+    from shapely.ops import transform as _tf
+    union = _tf(lambda x, y, z=None: (x, y), union)   # 去掉 Z，ee.Geometry 只吃二维
     aoi = ee.Geometry(union.__geo_interface__, proj="EPSG:4326", geodesic=False)
     print(f"[source] {len(towns)} 个产区，构建 36 旬 × 15 指数（540 波段）堆叠 …", flush=True)
     stack, names = build_stack(aoi, year)
@@ -334,15 +368,134 @@ def run_source(crop, out_dir, points, limit=None, year=YEAR, shard=None, gardens
     return p
 
 
+def _parse_spec(s):
+    """`矢量路径::类别字段::类别1,类别2` → (path, field, [classes])"""
+    parts = s.split("::")
+    if len(parts) != 3:
+        raise ValueError(f"--labels 格式应为 路径::字段::类别1,类别2，收到: {s}")
+    return parts[0], parts[1], [c.strip() for c in parts[2].split(",") if c.strip()]
+
+
+def pick_parcels(specs, per_class=300, counties=None, seed=7):
+    """按类别抽样地块（区县分层，按面积比例分配配额）。
+    返回 {类别: (选中 GeoDataFrame, 候选总数)}"""
+    from collections import defaultdict
+    acc = defaultdict(list)
+    for path, field, classes in specs:
+        g = gpd.read_file(path)
+        if counties and "QXMC" in g.columns:
+            g = g[g["QXMC"].astype(str).isin(counties)]
+        if field not in g.columns:
+            print(f"  !! {os.path.basename(path)} 无字段 {field}，跳过")
+            continue
+        g = g[g[field].astype(str).isin(classes)]
+        acc[path, field].append(g)
+
+    out = {}
+    for cls in sorted({c for _, _, cs in specs for c in cs}):
+        parts = []
+        for (path, field), gs in acc.items():
+            for g in gs:
+                if field in g.columns:
+                    sub = g[g[field].astype(str) == cls]
+                    if len(sub):
+                        parts.append(sub)
+        if not parts:
+            print(f"  !! 类别 {cls} 没有匹配到地块")
+            continue
+        g = pd.concat(parts, ignore_index=True)
+        total = len(g)
+        g = g[~g.geometry.is_empty & g.geometry.notna()].copy()
+        g["geometry"] = [x if x.is_valid else x.buffer(0) for x in g.geometry]
+        if len(g) > per_class:
+            key = g["QXMC"].astype(str) if "QXMC" in g.columns else pd.Series("all", index=g.index)
+            grp = g.groupby(key)
+            n = grp.size()
+            quota = (n / n.sum() * per_class).round().clip(lower=1).astype(int)
+            quota = (quota * per_class / quota.sum()).round().clip(upper=n).astype(int)
+            picks = [gg.sample(min(q, len(gg)), random_state=seed)
+                     for (_, gg), q in zip(grp, quota)]
+            g = pd.concat(picks, ignore_index=True)
+        out[cls] = (g.to_crs("EPSG:4326"), total)
+        print(f"    类别 {cls}: 候选 {total} 块 → 抽 {len(g)} 块", flush=True)
+    return out
+
+
+def run_parcel(crop, out_dir, specs, per_class=300, npoints=3000, year=YEAR,
+               counties=None, tag=""):
+    """作物地块库：分层抽样地块 → 各类地块并集内随机撒点 → 逐点 540 维。
+    与水果库同口径（S2 10m、36 旬 × 15 指数），产出可直接建 98 维指纹。"""
+    picked = pick_parcels(specs, per_class, counties)
+    if not picked:
+        print("!! 没有可用地块")
+        return None
+    from shapely.geometry import MultiPolygon
+    from shapely.ops import transform as _tf
+    geoms, meta = {}, []
+    for cls, (g, total) in picked.items():
+        u = unary_union([x if x.is_valid else x.buffer(0) for x in g.geometry])
+        if u.geom_type == "GeometryCollection":
+            u = unary_union([p for p in u.geoms if p.geom_type in ("Polygon", "MultiPolygon")])
+        if u.geom_type == "Polygon":
+            u = MultiPolygon([u])
+        u = _tf(lambda x, y, z=None: (x, y), u)
+        geoms[cls] = u
+        meta.append({"类别": cls, "候选地块": total, "抽样地块": len(g),
+                     "面积_km2": round(u.area * 111320 ** 2 * 0.86 / 1e6, 2)})
+
+    allb = unary_union(list(geoms.values()))
+    b = allb.bounds
+    aoi = ee.Geometry.Rectangle([float(b[0]), float(b[1]), float(b[2]), float(b[3])],
+                                proj="EPSG:4326", geodesic=False)
+    print(f"[parcel] {crop}: {len(geoms)} 类，AOI {np.round(b, 3).tolist()}；"
+          f"构建 36 旬 × 15 指数（540 波段）堆叠 …", flush=True)
+    stack, names = build_stack(aoi, year)
+    cols = band_names(names)
+
+    rows_by_cls = {}
+    for cls, geom in geoms.items():
+        reg = ee.Geometry(geom.__geo_interface__, proj="EPSG:4326", geodesic=False)
+        print(f"    {cls}: 撒 {npoints} 点 …", flush=True)
+        feats = sample_region(stack, reg, npoints)
+        rows = []
+        for f in feats:
+            p2 = f["properties"]
+            g = f.get("geometry")
+            r = {"region": cls, "crop": CLASS_KEY.get(cls, crop), "kind": "parcel", "cls": cls}
+            if g:
+                r["lon"], r["lat"] = g["coordinates"][0], g["coordinates"][1]
+            r.update({c: p2.get(c) for c in cols})
+            rows.append(r)
+        rows_by_cls[cls] = rows
+        print(f"          → {len(rows)} 点", flush=True)
+
+    outs = []
+    for cls, rows in rows_by_cls.items():
+        key = CLASS_KEY.get(cls, crop)
+        p = os.path.join(out_dir, f"来源产区_{key}_{year}_{tag or '地块'}.csv")
+        pd.DataFrame(rows).to_csv(p, index=False, encoding="utf-8-sig")
+        outs.append(p)
+        print(f"[输出] {p}  ({len(rows)} 行 × {len(cols) + 4} 列)", flush=True)
+    pd.DataFrame(meta).to_csv(os.path.join(out_dir, f"抽样清单_{crop}_{year}_{tag or '地块'}.csv"),
+                              index=False, encoding="utf-8-sig")
+    return outs
+
+
 def _read_target(aoi, code, town):
-    """交付件在 DELIV/{OUT}/{AOI编码}/交付/{镇名}_交付.shp。
+    r"""交付件在 DELIV/{OUT}/{AOI编码}/交付/{镇名}_交付.shp。
 
     兼容两种批次：0922 用 AOI 编码（如 33/38），1014/1016/1019 用镇编码（如 510781109）。
-    配置的 code 目录不存在时，按镇名在该 OUT 下自动查找。"""
+    配置的 code 目录不存在时，先在该 OUT 下按镇名查找；仍找不到则**跨批次**查找
+    （成果数据\{批次}\我们的赋值\{OUT}\*\交付\{镇名}_交付.shp）。"""
     d = os.path.join(DELIV, aoi, code, "交付")
     if not os.path.isdir(d):
         import glob as _glob
         cands = _glob.glob(os.path.join(DELIV, aoi, "*", "交付", f"{town}_交付.shp"))
+        if not cands:
+            # 跨批次：水果镇分散在 1014（梓潼）/1016（平武）/1019（江油），默认 DELIV 只覆盖其中一批
+            root = os.path.dirname(os.path.dirname(DELIV))
+            cands = _glob.glob(os.path.join(root, "*", "我们的赋值", aoi, "*", "交付",
+                                            f"{town}_交付.shp"))
         if not cands:
             raise FileNotFoundError(
                 f"找不到 {town} 交付件：{DELIV}\\{aoi}\\*\\交付\\{town}_交付.shp")
@@ -394,8 +547,9 @@ def run_target(crop, out_dir, year=YEAR, limit=None, towns=None):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["source", "target"], required=True)
-    ap.add_argument("--crop", choices=["citrus", "pomelo"], required=True)
+    ap.add_argument("--mode", choices=["source", "target", "parcel"], required=True)
+    ap.add_argument("--crop", choices=["citrus", "pomelo", "peach",
+                                       "rice", "wheat", "rape", "corn"], required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--points", type=int, default=400, help="来源产区每镇采样点数")
     ap.add_argument("--limit", type=int, default=0, help="只跑前 N 个产区/目标镇（试点用）")
@@ -406,8 +560,15 @@ def main():
     ap.add_argument("--gardens-only", action="store_true",
                     help="只跑园区级产区（center+radius，用户实地确认的连片果园）")
     ap.add_argument("--truth-shp", help="真值地块矢量（人工手绘确知作物的地块）→ 产区=这些地块")
+    ap.add_argument("--truth-density", type=float, default=100.0,
+                    help="真值模式采样密度：每多少 m² 采一个点（默认 100；调大可提速）")
     ap.add_argument("--tag", help="输出文件名后缀（如 真值v2），便于分批跑后合并")
-    ap.add_argument("--deliv", help="交付件根目录（默认 0922 批次；1014 批次需指定）")
+    ap.add_argument("--deliv", help="交付件根目录（默认最新批次 1019；其它批次会跨批次自动查找）")
+    ap.add_argument("--labels", action="append",
+                    help="parcel 模式：矢量::类别字段::类别1,类别2（可多次给）")
+    ap.add_argument("--per-class", type=int, default=300, help="parcel 模式每类抽样地块数")
+    ap.add_argument("--parcel-points", type=int, default=3000, help="parcel 模式每类撒点数")
+    ap.add_argument("--counties", help="parcel 模式只取指定区县（QXMC，逗号分隔）")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     if a.deliv:
@@ -430,7 +591,13 @@ def main():
         shard = (int(i), int(n))
     if a.mode == "source":
         run_source(a.crop, a.out, a.points, a.limit or None, a.year, shard, a.gardens_only,
-                   a.truth_shp, a.tag or "")
+                   a.truth_shp, a.tag or "", a.truth_density)
+    elif a.mode == "parcel":
+        specs = [_parse_spec(s) for s in (a.labels or [])]
+        if not specs:
+            raise SystemExit("parcel 模式必须给 --labels 路径::字段::类别")
+        cty = [c.strip() for c in a.counties.split(",")] if a.counties else None
+        run_parcel(a.crop, a.out, specs, a.per_class, a.parcel_points, a.year, cty, a.tag or "")
     else:
         run_target(a.crop, a.out, a.year, a.limit or None, a.towns)
 

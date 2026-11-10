@@ -57,7 +57,7 @@ def block_fit_dist(lib_fp, tgt_fp, dims):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--crop", choices=["citrus", "pomelo"], required=True)
+    ap.add_argument("--crop", choices=["citrus", "pomelo", "plum"], required=True)
     ap.add_argument("--town", required=True)
     ap.add_argument("--shp", required=True)
     ap.add_argument("--xlsx", required=True)

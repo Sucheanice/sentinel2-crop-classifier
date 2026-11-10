@@ -28,7 +28,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 MU = 0.0015
 TARGET_CRS = "EPSG:4523"
-DELIV = r"e:\工作相关\2026年\0624 待测试数据\成果数据\0922 前序环节数据\MY第一批_我们的赋值"
+# 默认交付根（最新批次 1019）。注：本文件 main() 的旧「单库打分」流程已被
+# merge_fruit_into_delivery.py（双库对照）取代，跨批次请用后者。
+DELIV = r"e:\工作相关\2026年\0624 待测试数据\成果数据\1019 第二版前序数据3\我们的赋值"
 
 # 目标镇（与 extract 的 TARGETS 对应）
 TARGETS = {
@@ -139,7 +141,8 @@ def compare(a_fp, b_fp, na, nb):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--crop", choices=["citrus", "pomelo"], help="不打分时可不传（建指纹会两个都做）")
+    ap.add_argument("--crop", choices=["citrus", "pomelo"],
+                    help="不打分时可不传（建指纹会两个都做）")
     ap.add_argument("--src-dir", required=True, help="特征 CSV 目录")
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--year", type=int, default=2025)

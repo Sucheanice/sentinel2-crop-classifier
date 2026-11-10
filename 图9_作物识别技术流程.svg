@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="920" viewBox="0 0 1100 920" font-family="'Microsoft YaHei','SimHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 z" fill="#4A80C0"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 z" fill="#D89B3C"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L10,4 L0,8 z" fill="#9AA0A6"/>
+    </marker>
+  </defs>
+
+  <rect width="1100" height="920" fill="#FFFFFF"/>
+  <text x="550" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#1F3B5C">作物识别技术流程</text>
+
+  <!-- 主流程 -->
+  <g>
+    <rect x="320" y="70" width="460" height="68" rx="8" fill="#EAF2FB" stroke="#4A80C0" stroke-width="1.5"/>
+    <text x="550" y="98" text-anchor="middle" font-size="15" font-weight="bold" fill="#1F3B5C">前序：0.5 m 高分影像</text>
+    <text x="550" y="121" text-anchor="middle" font-size="14" fill="#33506E">耕地 / 水体地块层（SHP）</text>
+  </g>
+
+  <g>
+    <rect x="320" y="176" width="460" height="68" rx="8" fill="#EAF2FB" stroke="#4A80C0" stroke-width="1.5"/>
+    <text x="550" y="204" text-anchor="middle" font-size="15" font-weight="bold" fill="#1F3B5C">GEE 云端影像处理</text>
+    <text x="550" y="227" text-anchor="middle" font-size="14" fill="#33506E">S2 L2A + SCL 云掩膜 + median 合成 → 逐地块波段均值</text>
+  </g>
+
+  <g>
+    <rect x="320" y="282" width="460" height="68" rx="8" fill="#EAF2FB" stroke="#4A80C0" stroke-width="1.5"/>
+    <text x="550" y="310" text-anchor="middle" font-size="15" font-weight="bold" fill="#1F3B5C">特征工程</text>
+    <text x="550" y="333" text-anchor="middle" font-size="14" fill="#33506E">光谱 + 植被指数 + 时序统计 + 物候 + 花敏感指数</text>
+  </g>
+
+  <g>
+    <rect x="320" y="388" width="460" height="68" rx="8" fill="#EAF2FB" stroke="#4A80C0" stroke-width="1.5"/>
+    <text x="550" y="416" text-anchor="middle" font-size="15" font-weight="bold" fill="#1F3B5C">分季节 LightGBM 二分类</text>
+    <text x="550" y="439" text-anchor="middle" font-size="14" fill="#33506E">大春 水稻 / 玉米　　小春 小麦 / 油菜</text>
+  </g>
+
+  <g>
+    <rect x="320" y="494" width="460" height="68" rx="8" fill="#EAF2FB" stroke="#4A80C0" stroke-width="1.5"/>
+    <text x="550" y="522" text-anchor="middle" font-size="15" font-weight="bold" fill="#1F3B5C">地块概率 + 三条阈值链联合判定</text>
+    <text x="550" y="545" text-anchor="middle" font-size="14" fill="#33506E">无覆盖 / 非植被 / 不确定 / 类别</text>
+  </g>
+
+  <g>
+    <rect x="320" y="600" width="460" height="68" rx="8" fill="#EAF2FB" stroke="#4A80C0" stroke-width="1.5"/>
+    <text x="550" y="628" text-anchor="middle" font-size="15" font-weight="bold" fill="#1F3B5C">置信度分级 + 矢量化</text>
+    <text x="550" y="651" text-anchor="middle" font-size="14" fill="#33506E">高 ≥0.70　　中 ≥0.60　　低 &lt;0.60</text>
+  </g>
+
+  <g>
+    <rect x="320" y="706" width="460" height="68" rx="8" fill="#E3F3E8" stroke="#4C9A63" stroke-width="1.5"/>
+    <text x="550" y="734" text-anchor="middle" font-size="15" font-weight="bold" fill="#1F5C33">产出</text>
+    <text x="550" y="757" text-anchor="middle" font-size="13" fill="#2F6B45">地块赋值层 / 质检明细 / 交付九列 xlsx / 预览图</text>
+  </g>
+
+  <!-- 主流程箭头 -->
+  <line x1="550" y1="138" x2="550" y2="176" stroke="#4A80C0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="550" y1="244" x2="550" y2="282" stroke="#4A80C0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="550" y1="350" x2="550" y2="388" stroke="#4A80C0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="550" y1="456" x2="550" y2="494" stroke="#4A80C0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="550" y1="562" x2="550" y2="600" stroke="#4A80C0" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="550" y1="668" x2="550" y2="706" stroke="#4A80C0" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- 左侧：影像时相 -->
+  <g>
+    <rect x="40" y="176" width="250" height="110" rx="8" fill="#FDF3E3" stroke="#D89B3C" stroke-width="1.5"/>
+    <text x="165" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#8A5A12">影像时相</text>
+    <text x="165" y="234" text-anchor="middle" font-size="14" fill="#8A5A12">大春 5上 · 7上中 · 8中</text>
+    <text x="165" y="259" text-anchor="middle" font-size="14" fill="#8A5A12">小春 12 · 1 · 3 · 5 月</text>
+  </g>
+  <line x1="290" y1="225" x2="320" y2="213" stroke="#D89B3C" stroke-width="2" marker-end="url(#arrowAmber)"/>
+
+  <!-- 右侧：新区域样本校准 -->
+  <g>
+    <rect x="810" y="388" width="250" height="110" rx="8" fill="#FDF3E3" stroke="#D89B3C" stroke-width="1.5"/>
+    <text x="935" y="436" text-anchor="middle" font-size="15" font-weight="bold" fill="#8A5A12">新区域样本校准</text>
+    <text x="935" y="462" text-anchor="middle" font-size="14" fill="#8A5A12">迁移验证 + 标签清洗</text>
+  </g>
+  <line x1="810" y1="440" x2="780" y2="428" stroke="#D89B3C" stroke-width="2" marker-end="url(#arrowAmber)"/>
+
+  <!-- 底部：不纳入交付 -->
+  <line x1="550" y1="774" x2="550" y2="828" stroke="#9AA0A6" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrowGray)"/>
+  <rect x="320" y="828" width="460" height="56" rx="8" fill="#F5F5F5" stroke="#9AA0A6" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="550" y="862" text-anchor="middle" font-size="13" fill="#6B7075">不纳入交付：高粱 · 果园（光谱不可分）· 蔬菜 · 柑橘蜜柚 · 中草药</text>
+</svg>

@@ -47,8 +47,12 @@ SQUARE_MIN = 0.60       # 鱼塘判据：方正度下限
 AREA_MAX_MU = 5.0       # 鱼塘判据：面积上限（亩）
 CROP_LABELS = ("水稻", "玉米")   # 模型判为作物的标签（水体剔除以外的保留项）
 
-MY = os.path.join(ROOT, r"成果数据\0922 前序环节数据\MY第一批成果")
-OUT_ROOT = os.path.join(ROOT, r"成果数据\0922 前序环节数据\MY第一批_我们的赋值")
+# ⚠️ 本文件的 stage_gee / stage_deliver 是通用能力（run_batch_delivery.py 也调用它们）；
+#    而 main() / list_aois() / stage_prep() 是 0922 那套「{OUT}/{AOI}/farmland」布局的**旧驱动**，
+#    已被 run_batch_delivery.py 取代。0922 数据已删，下面常量指向最新批次，仅避免悬空路径。
+#    新批次请用：python run_batch_delivery.py --base "…" --src "…"
+MY = os.path.join(ROOT, r"成果数据\1016 第二版前序数据2")
+OUT_ROOT = os.path.join(ROOT, r"成果数据\1016 第二版前序数据2\我们的赋值")
 VILL = os.path.join(ROOT, r"训练与标注数据\0907村界等数据\绵阳\四川省村界\四川省村界\四川省_村界.shp")
 MODEL = os.path.join(ROOT, r"模型\dachun_binary_23counties_3dekad_wide.pkl")
 EXPORT = os.path.join(BASE, "export_delivery_xlsx.py")
